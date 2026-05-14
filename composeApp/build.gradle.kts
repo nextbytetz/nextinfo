@@ -40,6 +40,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(compose.material3)
             implementation(libs.coil.compose)
+            implementation(libs.coil.network.okhttp)
             implementation(compose.materialIconsExtended)
         }
         commonTest.dependencies {
