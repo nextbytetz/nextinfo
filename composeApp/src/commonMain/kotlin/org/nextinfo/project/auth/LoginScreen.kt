@@ -120,7 +120,7 @@ fun LoginScreen(
                     errorMsg = "Please fill in all fields"
                 } else {
                     isLoading = true
-                    // TODO: real auth — simulate delay
+                    // TODO: real auth - simulate delay
                     onLoginSuccess()
                 }
             }

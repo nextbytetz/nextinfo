@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -70,9 +71,10 @@ fun AuthScaffold(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(scrollState)
                 .statusBarsPadding()
                 .navigationBarsPadding()
+                .imePadding()
+                .verticalScroll(scrollState)
                 .padding(horizontal = 24.dp, vertical = 32.dp),
             content = content
         )
