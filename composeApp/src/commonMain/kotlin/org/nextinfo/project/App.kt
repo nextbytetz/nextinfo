@@ -9,11 +9,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.nextinfo.project.auth.AuthHost
 import org.nextinfo.project.navigation.BottomNavItem
 import org.nextinfo.project.navigation.CustomBottomNav
 
 @Composable
 fun App() {
+    var isAuthenticated by remember { mutableStateOf(false) }
+    NextInfoTheme {
+        if (!isAuthenticated) {
+            AuthHost(onAuthSuccess = { isAuthenticated = true })
+        } else {
+            MainApp()
+        }
+    }
+}
+
+
+@Composable
+private fun MainApp() {
     var selectedNav: BottomNavItem by remember { mutableStateOf(BottomNavItem.Home) }
     var selectedCompany: Company?  by remember { mutableStateOf(null) }
     val subscribed = remember { mutableStateSetOf<String>() }
