@@ -77,7 +77,6 @@ fun CustomBottomNav(selectedItem: BottomNavItem, onItemSelected: (BottomNavItem)
                 .align(Alignment.BottomCenter)
         )
 
-        // Tab row — all tabs rendered uniformly, FAB slot is invisible placeholder
         Row(
             modifier = Modifier
                 .fillMaxWidth()

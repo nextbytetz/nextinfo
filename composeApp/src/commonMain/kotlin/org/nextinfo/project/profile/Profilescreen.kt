@@ -4,10 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,13 +15,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -39,7 +33,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.nextinfo.project.Blue100
 import org.nextinfo.project.Blue500
-import org.nextinfo.project.Company
 import org.nextinfo.project.Gray100
 import org.nextinfo.project.Gray200
 import org.nextinfo.project.Gray600
@@ -54,10 +47,10 @@ enum class NotificationChannel(
     val description: String,
     val icon: ImageVector
 ) {
-    EMAIL(    "Email only",    "Receive updates via email",        Icons.Default.Email),
-    SMS(      "SMS only",      "Receive updates via text message", Icons.Default.Sms),
-    WHATSAPP( "WhatsApp only", "Receive updates via WhatsApp",     Icons.Default.Chat),
-    ALL(      "All channels",  "Email, SMS and WhatsApp",          Icons.Default.Notifications)
+    EMAIL( "Email only", "Receive updates via email", Icons.Default.Email),
+    SMS( "SMS only", "Receive updates via text message", Icons.Default.Sms),
+    WHATSAPP( "WhatsApp only", "Receive updates via WhatsApp", Icons.Default.Chat),
+    ALL( "All channels",  "Email, SMS and WhatsApp", Icons.Default.Notifications)
 }
 
 data class UserProfile(
@@ -170,6 +163,20 @@ private fun ProfileScreen(
                 text = "Danger Zone",
             )
         }
+
+        item {
+            Spacer(modifier = Modifier.height(8.dp))
+            SettingsGroup {
+                SettingsRow(
+                    icon = Icons.Default.Logout,
+                    iconBg = Gray600,
+                    title = "Logout",
+                    subtitle = "Logout will disable your alerts",
+                    showChevron = false,
+                    onClick  = {}
+                )
+            }
+        }
         item {
             SettingsGroup {
                 SettingsRow(
@@ -180,20 +187,6 @@ private fun ProfileScreen(
                     titleColor = Color(0xFFFF3B30),
                     showChevron = true,
                     onClick = onDeleteAccount
-                )
-            }
-        }
-
-        item {
-            Spacer(modifier = Modifier.height(8.dp))
-            SettingsGroup {
-                SettingsRow(
-                    icon = Icons.Default.Info,
-                    iconBg = Gray600,
-                    title = "Version",
-                    subtitle = "NextInfo 1.0.0",
-                    showChevron = false,
-                    onClick  = {}
                 )
             }
         }
@@ -533,10 +526,7 @@ private fun EditProfileDialog(
 }
 
 @Composable
-private fun ChangePasswordDialog(
-    onDismiss: () -> Unit,
-    onSave: () -> Unit
-) {
+private fun ChangePasswordDialog(onDismiss: () -> Unit, onSave: () -> Unit) {
     var current by remember { mutableStateOf("") }
     var next by remember { mutableStateOf("") }
     var confirm by remember { mutableStateOf("") }
@@ -603,12 +593,9 @@ private fun ChangePasswordDialog(
 }
 
 @Composable
-private fun DeleteAccountDialog(
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit
-) {
+private fun DeleteAccountDialog(onDismiss: () -> Unit, onConfirm: () -> Unit) {
     var confirmText by remember { mutableStateOf("") }
-    val canDelete   = confirmText.trim().uppercase() == "DELETE"
+    val canDelete = confirmText.trim().uppercase() == "DELETE"
 
     ProfileDialog(title = "Delete Account", onDismiss = onDismiss) {
         // Warning box
@@ -638,35 +625,35 @@ private fun DeleteAccountDialog(
 
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text       = "Type DELETE to confirm",
-            fontSize   = 12.sp,
-            color      = Gray600,
+            text = "Type DELETE to confirm",
+            fontSize = 12.sp,
+            color = Gray600,
             fontWeight = FontWeight.Medium
         )
         Spacer(modifier = Modifier.height(8.dp))
         ProfileTextField(
-            value         = confirmText,
+            value = confirmText,
             onValueChange = { confirmText = it },
-            label         = "Type DELETE",
-            leadingIcon   = Icons.Default.DeleteForever,
-            isError       = confirmText.isNotBlank() && !canDelete
+            label = "Type DELETE",
+            leadingIcon = Icons.Default.DeleteForever,
+            isError = confirmText.isNotBlank() && !canDelete
         )
         Spacer(modifier = Modifier.height(20.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             OutlinedButton(
-                onClick  = onDismiss,
+                onClick = onDismiss,
                 modifier = Modifier.weight(1f),
-                shape    = RoundedCornerShape(12.dp),
-                border   = androidx.compose.foundation.BorderStroke(1.dp, Gray200)
+                shape = RoundedCornerShape(12.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Gray200)
             ) { Text("Cancel", color = Gray600) }
 
             Button(
-                onClick  = onConfirm,
-                enabled  = canDelete,
+                onClick = onConfirm,
+                enabled = canDelete,
                 modifier = Modifier.weight(1f),
-                shape    = RoundedCornerShape(12.dp),
-                colors   = ButtonDefaults.buttonColors(
-                    containerColor        = Color(0xFFFF3B30),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFFF3B30),
                     disabledContainerColor = Color(0xFFFF3B30).copy(alpha = 0.4f)
                 )
             ) { Text("Delete", fontWeight = FontWeight.Bold) }
@@ -676,28 +663,24 @@ private fun DeleteAccountDialog(
 
 
 @Composable
-private fun ProfileDialog(
-    title: String,
-    onDismiss: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit
-) {
+private fun ProfileDialog(title: String, onDismiss: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
     Dialog(
         onDismissRequest = onDismiss,
-        properties       = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp),
-            shape    = RoundedCornerShape(20.dp),
-            color    = PureWhite
+            shape = RoundedCornerShape(20.dp),
+            color = PureWhite
         ) {
             Column(modifier = Modifier.padding(24.dp)) {
                 Text(
-                    text       = title,
-                    fontSize   = 18.sp,
+                    text = title,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color      = Gray900
+                    color = Gray900
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 content()
@@ -714,28 +697,28 @@ private fun ProfileTextField(
     label: String,
     leadingIcon: ImageVector,
     keyboardType: KeyboardType = KeyboardType.Text,
-    isError: Boolean           = false,
-    supportingText: String?    = null
+    isError: Boolean = false,
+    supportingText: String? = null
 ) {
     OutlinedTextField(
-        value             = value,
-        onValueChange     = onValueChange,
-        label             = { Text(label, fontSize = 13.sp) },
-        leadingIcon       = {
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label, fontSize = 13.sp) },
+        leadingIcon = {
             Icon(leadingIcon, contentDescription = null, tint = if (isError) Color(0xFFFF3B30) else Blue500, modifier = Modifier.size(18.dp))
         },
-        isError           = isError,
-        supportingText    = supportingText?.let { { Text(it, fontSize = 11.sp) } },
-        keyboardOptions   = KeyboardOptions(keyboardType = keyboardType),
-        singleLine        = true,
-        modifier          = Modifier.fillMaxWidth(),
-        shape             = RoundedCornerShape(12.dp),
-        colors            = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor   = Blue500,
+        isError = isError,
+        supportingText = supportingText?.let { { Text(it, fontSize = 11.sp) } },
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        singleLine = true,
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = Blue500,
             unfocusedBorderColor = Gray200,
-            focusedContainerColor   = PureWhite,
+            focusedContainerColor = PureWhite,
             unfocusedContainerColor = PureWhite,
-            errorBorderColor        = Color(0xFFFF3B30)
+            errorBorderColor = Color(0xFFFF3B30)
         )
     )
 }
@@ -748,39 +731,39 @@ private fun PasswordField(
     label: String,
     visible: Boolean,
     onToggle: () -> Unit,
-    isError: Boolean        = false,
+    isError: Boolean = false,
     supportingText: String? = null
 ) {
     OutlinedTextField(
-        value               = value,
-        onValueChange       = onValueChange,
-        label               = { Text(label, fontSize = 13.sp) },
-        leadingIcon         = {
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label, fontSize = 13.sp) },
+        leadingIcon = {
             Icon(Icons.Default.Lock, contentDescription = null, tint = Blue500, modifier = Modifier.size(18.dp))
         },
-        trailingIcon        = {
+        trailingIcon = {
             IconButton(onClick = onToggle) {
                 Icon(
-                    imageVector        = if (visible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                    imageVector = if (visible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                     contentDescription = if (visible) "Hide" else "Show",
-                    tint               = Gray600,
-                    modifier           = Modifier.size(18.dp)
+                    tint = Gray600,
+                    modifier = Modifier.size(18.dp)
                 )
             }
         },
         visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
-        isError              = isError,
-        supportingText       = supportingText?.let { { Text(it, fontSize = 11.sp) } },
-        keyboardOptions      = KeyboardOptions(keyboardType = KeyboardType.Password),
-        singleLine           = true,
-        modifier             = Modifier.fillMaxWidth(),
-        shape                = RoundedCornerShape(12.dp),
-        colors               = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor      = Blue500,
-            unfocusedBorderColor    = Gray200,
-            focusedContainerColor   = PureWhite,
+        isError = isError,
+        supportingText = supportingText?.let { { Text(it, fontSize = 11.sp) } },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        singleLine = true,
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = Blue500,
+            unfocusedBorderColor = Gray200,
+            focusedContainerColor = PureWhite,
             unfocusedContainerColor = PureWhite,
-            errorBorderColor        = Color(0xFFFF3B30)
+            errorBorderColor = Color(0xFFFF3B30)
         )
     )
 }
@@ -788,10 +771,10 @@ private fun PasswordField(
 
 private fun passwordStrength(pw: String): Pair<Float, Pair<Color, String>> {
     var score = 0
-    if (pw.length >= 8)                          score++
-    if (pw.any { it.isUpperCase() })             score++
-    if (pw.any { it.isDigit() })                 score++
-    if (pw.any { "!@#\$%^&*".contains(it) })    score++
+    if (pw.length >= 8) score++
+    if (pw.any { it.isUpperCase() }) score++
+    if (pw.any { it.isDigit() }) score++
+    if (pw.any { "!@#\$%^&*".contains(it) }) score++
     return when (score) {
         0, 1 -> 0.25f to (Color(0xFFFF3B30) to "Weak")
         2 -> 0.50f to (Color(0xFFFF9F0A) to "Fair")
@@ -803,10 +786,10 @@ private fun passwordStrength(pw: String): Pair<Float, Pair<Color, String>> {
 @Composable
 private fun PasswordStrengthBar(password: String) {
     val (fraction, meta) = passwordStrength(password)
-    val (color, label)   = meta
+    val (color, label) = meta
 
     val animFraction by animateFloatAsState(
-        targetValue   = fraction,
+        targetValue = fraction,
         animationSpec = tween(300),
         label = "pwStrength"
     )

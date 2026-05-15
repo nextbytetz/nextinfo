@@ -18,6 +18,7 @@ import org.nextinfo.project.navigation.BottomNavItem
 import org.nextinfo.project.navigation.CustomBottomNav
 import org.jetbrains.compose.resources.painterResource
 import org.nextinfo.project.profile.ProfileContent
+import org.nextinfo.project.settings.ToolsContent
 
 
 @Composable
@@ -76,6 +77,10 @@ private fun MainApp() {
                         onCompanyClick = { company -> selectedCompany = company }
                     )
                     BottomNavItem.Profile -> ProfileContent(
+                        paddingValues = PaddingValues(0.dp),
+                    )
+
+                    BottomNavItem.Tools -> ToolsContent(
                         paddingValues = PaddingValues(0.dp),
                     )
 
