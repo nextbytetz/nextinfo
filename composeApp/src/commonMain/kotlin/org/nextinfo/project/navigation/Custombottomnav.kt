@@ -47,10 +47,7 @@ private val TabMinW = 56.dp
 private const val AnimMs = 320
 
 @Composable
-fun CustomBottomNav(
-    selectedItem: BottomNavItem,
-    onItemSelected: (BottomNavItem) -> Unit
-) {
+fun CustomBottomNav(selectedItem: BottomNavItem, onItemSelected: (BottomNavItem) -> Unit) {
     val items = BottomNavItem.items
     val fabIndex = items.indexOfFirst { it.route == selectedItem.route }.coerceAtLeast(0)
 
@@ -121,11 +118,7 @@ fun CustomBottomNav(
 }
 
 @Composable
-private fun CurvedNavBackground(
-    fabCenterX: Dp,
-    totalWidth: Dp,
-    modifier: Modifier = Modifier
-) {
+private fun CurvedNavBackground(fabCenterX: Dp, totalWidth: Dp, modifier: Modifier = Modifier) {
     val density = LocalDensity.current
     val bgColor = PureWhite
     val borderColor = Color(0xFFE5E5EA)
@@ -180,12 +173,7 @@ private fun CurvedNavBackground(
 }
 
 @Composable
-private fun NavTab(
-    item: BottomNavItem,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+private fun NavTab(item: BottomNavItem, isSelected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val interactionSource = remember { MutableInteractionSource() }
     val scale by animateFloatAsState(
         targetValue = if (isSelected) 1f else 0.92f,
@@ -226,12 +214,7 @@ private fun NavTab(
 }
 
 @Composable
-private fun FabButton(
-    item: BottomNavItem,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+private fun FabButton(item: BottomNavItem, isSelected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val scale by animateFloatAsState(
         targetValue = if (isSelected) 0.92f else 1f,
         animationSpec = spring(dampingRatio = 0.5f),

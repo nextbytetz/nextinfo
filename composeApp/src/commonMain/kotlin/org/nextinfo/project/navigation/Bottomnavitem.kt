@@ -43,7 +43,7 @@ sealed class BottomNavItem(
     )
 
     data object Profile : BottomNavItem(
-        route = "profile",
+        route = "org/nextinfo/project/profile",
         title = "Profile",
         selectedIcon = Icons.Filled.Person,
         unselectedIcon = Icons.Outlined.Person

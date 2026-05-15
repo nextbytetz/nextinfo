@@ -38,7 +38,7 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
 NextTask
 
 ProfileScreen
-  -> Update Profile
+  -> Update Profile (username, email, phone, name)
   -> Change Password
   -> Delete Account
 

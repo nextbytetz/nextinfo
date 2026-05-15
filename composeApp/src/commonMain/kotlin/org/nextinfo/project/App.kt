@@ -1,17 +1,24 @@
 package org.nextinfo.project
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextinfo.composeapp.generated.resources.Res
+import nextinfo.composeapp.generated.resources.logo
 import org.nextinfo.project.auth.AuthHost
 import org.nextinfo.project.navigation.BottomNavItem
 import org.nextinfo.project.navigation.CustomBottomNav
+import org.jetbrains.compose.resources.painterResource
+import org.nextinfo.project.profile.ProfileContent
+
 
 @Composable
 fun App() {
@@ -68,6 +75,9 @@ private fun MainApp() {
                         },
                         onCompanyClick = { company -> selectedCompany = company }
                     )
+                    BottomNavItem.Profile -> ProfileContent(
+                        paddingValues = PaddingValues(0.dp),
+                    )
 
                     else -> PlaceholderScreen(
                         paddingValues = PaddingValues(0.dp),
@@ -88,21 +98,51 @@ private fun MainApp() {
 
 @Composable
 private fun AppTopBar() {
-    Surface(shadowElevation = 2.dp, color = PureWhite) {
-        Box(
+    Surface(
+        shadowElevation = 3.dp,
+        color = PureWhite
+    ) {
+        Row(
             modifier = Modifier
                 .statusBarsPadding()
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp),
-            contentAlignment = Alignment.Center
+                .padding(horizontal = 20.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "NextInfo",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Black,
-                color = Blue500,
-                textAlign = TextAlign.Center
+            Image(
+                painter = painterResource(Res.drawable.logo),
+                contentDescription = "NextInfo Logo",
+                modifier = Modifier
+                    .height(45.dp)
+                    .wrapContentWidth()
             )
+
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .height(24.dp)
+                    .width(1.dp)
+                    .background(Color.LightGray.copy(alpha = 0.5f))
+            )
+
+            // Slogan
+            Column {
+                Text(
+                    text = "Kua Wakwanza,",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Blue500,
+                    letterSpacing = 1.sp
+                )
+                Text(
+                    text = "Usipitwe na taarifa yoyote.",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Light,
+                    color = Color.Gray,
+                    letterSpacing = 4.sp
+                )
+            }
         }
     }
 }
